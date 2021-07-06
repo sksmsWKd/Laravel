@@ -21,23 +21,50 @@ Route::get('/', function () {
     ]);
 });
 
+
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
 
+
+Route::get('/test4', [TestController::class, 'index']);
+
 Route::get(
     '/posts/create',
     [PostsController::class, 'create']
-);
+)/*->middleware(['auth'])*/;
 //->middleware(['auth']);
 //middle 웨어 지정, 이 미들웨어를 거쳐서 오게끔
 
-Route::post('/posts/store', [PostsController::class, 'store']);
+
+Route::post(
+    '/posts/store',
+    [PostsController::class, 'store']
+)->name('posts.store')/*->middleware(['auth'])*/;
 //->middleware(['auth']);
 
-Route::get('/posts/index', [PostsController::class, 'index'])->name('posts.index');
+Route::get(
+    '/posts/index',
+    [PostsController::class, 'index']
+)->name('posts.index');
 //->name 하면 이름 지정
 
+
+
 Route::get('/posts/show/{id}', [PostsController::class, 'show'])->name('post.show');
+//route 파라미터로 id받음
+
+Route::get('/posts/{post}', [PostsController::class, 'edit'])->name('post.edit');
+//몇번 글인지 번호를 줘야함
+
+
+Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update');
+//db에서 update 연산 수행
+
+
+
+Route::delete('/posts/{post}', [PostsController::class, 'destroy'])->name('post.delete');
