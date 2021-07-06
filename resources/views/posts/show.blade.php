@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+
     <style>
         h1 {
             text-align: center;
@@ -29,11 +29,6 @@
 
         {{-- 토큰을 넣는다.
         내가만든 페이지로 요청이 왔구나. 피싱 사이트의 요청이 아닌것을 판단. --}}
-
-
-
-
-
 
 
 
@@ -64,15 +59,19 @@
 
         {{-- input name 에 넣는것 - >컨트롤러에 리퀘스트 --}}
 
+    </div>
 
+    </div>
 
+    <div class="m-10">
+        <button class="btn btn-warning"
+            onclick="location.href='{{ route('post.edit', ['post' => $post->id]) }}'">수정</button>
+        <button class="btn btn-danger"
+            onclick="location.href='{{ route('post.delete', ['post' => $post->id]) }}'">삭제</button>
 
     </div>
 
 
-
-
-    </div>
 </body>
 
 </html>

@@ -1,12 +1,20 @@
 <html>
 
-<BODY>
-    <h1>create 입니다. </h1>
-
-    <form action="/posts/store" name="title" placeholder="Title"></form>
-
+<head>
     <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+
+</head>
+
+<BODY>
+
+    <h1>create 입니다. </h1>
+
+
+
+
 
     {{-- <script src=""></script> --}}
 
@@ -57,8 +65,13 @@
             </div>
 
 
+            <div><button type="submit">글
+                    작성</button>
+            </div>
+            <div>
+                <button type="button" onclick="location.href='/posts/index'">목록으로 돌아가기</button>
 
-            <button type=" submit" class="btn btn-primary">Submit</button>
+            </div>
 
 
     </form>
