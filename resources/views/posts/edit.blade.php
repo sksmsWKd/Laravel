@@ -23,6 +23,7 @@
     <form action="{{ route('post.update', ['id' => $post->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method("put")
+        {{-- 이거 method 안넣으면 post 방식으로 되버림 --}}
 
         {{-- 토큰을 넣는다.
         내가만든 페이지로 요청이 왔구나. 피싱 사이트의 요청이 아닌것을 판단. --}}
