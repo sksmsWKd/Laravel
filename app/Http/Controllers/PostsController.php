@@ -194,14 +194,14 @@ class PostsController extends Controller
 
 
 
-    public function edit(Post $post)
+    public function edit(Request $request, Post $post)
     //id가 몇번인 것을 edit 할지..
     {
         //$post = Post::find($id);
 
         //$post = Post::where('id', $id)->first();
         //파사드로 찾음
-        return view('posts.edit')->with('post', $post);
+        return view('posts.edit')->with(['post' => $post, 'page' => $request->page]);
         //원래 글은 이것
     }
 
@@ -239,6 +239,25 @@ class PostsController extends Controller
             $post->image = $this->uploadPostImage($request);
         }
 
+        //Authorization 즉 , 수정 권한이 있는지 검사
+        // 로그인한 사용자와 게시글의 작성자가 같은지
+
+        //1. 아래처럼 권한제어
+
+        // if (auth()->user()->id != $post->user_id) {
+        //     abort(403);
+        // }
+
+        //2. 아래처럼 권한제어
+        //policy 를 만들었으면 이렇게 할수있다.
+
+        if ($request->user()->cannot('update', $post)) {
+            abort(403);
+        }
+
+
+
+
 
         // if ($request->file('imageFile')) {
         //     $request->file('imageFile');
@@ -247,7 +266,9 @@ class PostsController extends Controller
         $post->content = $request->content;
         $post->save();
 
-        return redirect()->route('post.show', ['id' => $id]);
+        return redirect()->route('post.show', ['id' => $id, 'page' => $request->page]);
+        //페이지 정보를 같이 줘야함
+
     }
 
 
@@ -256,10 +277,39 @@ class PostsController extends Controller
 
 
 
-    public function destroy()
+    public function destroy(Request $request, $id)
     // 파일 시스템에서 이미지 파일 삭제.
     //게시글을 db에서 삭제.    
     {
+
+        $post = Post::findOrFail($id);
+
+
+        //Authorization 즉 , 수정 권한이 있는지 검사
+        // 로그인한 사용자와 게시글의 작성자가 같은지
+
+        //1. 아래처럼 권한제어
+
+        // if (auth()->user()->id != $post->user_id) {
+        //     abort(403);
+        // }
+
+        //2. 아래처럼 권한제어
+        //policy 를 만들었으면 이렇게 할수있다.
+        if ($request->user()->cannot('delete', $post)) {
+            abort(403);
+        }
+
+
+        $page = $request->page;
+        if ($post->image) {
+            $imagePath = 'public/images/' . $post->image;
+            Storage::delete($imagePath);
+        }
+        //DB에서 삭제하는 메소드
+        //DB에 IMAGE가 NULL값-> 이미지 없음    OR   이미지 NULL 아님 -> 이미지 있음
+        $post->delete();
+        return redirect()->route('posts.index', ['page' => $page]);
     }
 
 
@@ -278,5 +328,10 @@ class PostsController extends Controller
         $post = Post::find($id);
 
         return view('posts.show', compact('post', 'page'));
+    }
+
+    public function checklist()
+    {
+        return view('checklist');
     }
 }
