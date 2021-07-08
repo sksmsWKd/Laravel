@@ -93,7 +93,14 @@ class PostsController extends Controller
 
 
 
+    public function checkstore(Request $request)
+    {
 
+        //여기에 이제 정보를 넣어주세요.
+        //마리아db보면서.
+
+        return redirect('/checklist/check');
+    }
 
 
 
@@ -330,8 +337,23 @@ class PostsController extends Controller
         return view('posts.show', compact('post', 'page'));
     }
 
+
+
+
+
+
     public function checklist()
     {
         return view('checklist');
+    }
+
+
+    public function mylists()
+    {
+        // $posts = auth()->user()->posts()->latest()->paginate(5);
+        // $posts = auth()->user()->posts()->orderby('title')->paginate(5);
+        $posts = Post::latest()->paginate(5);
+
+        return view('posts.mylists', ['posts' => $posts]);
     }
 }
