@@ -16,22 +16,52 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <style>
+        body {
+            background-color: rgb(30, 32, 34);
+        }
+
+        .bg-white.shadow {
+            background-color: rgb(24, 26, 27);
+        }
+
+        .zz {
+            color: rgb(205, 200, 189);
+        }
+
+        .bg-white.overflow-hidden.shadow-sm.sm:rounded-lg {
+            background-color: rgb(24, 26, 27);
+        }
+
+        .max-w-7xl.mx-auto.sm:px-6.lg:px-8 {
+            background-color: rgb(24, 26, 27);
+        }
+
+    </style>
+
+
 </head>
 
+
+
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-while ">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+
                 {{ $header }}
+
             </div>
         </header>
 
         <!-- Page Content -->
         <main>
             {{ $slot }}
+
         </main>
     </div>
 </body>
