@@ -7,6 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <style>
+        .max-w-7xl.mx-auto.py-6.px-4.sm:px-6.lg:px-8 {
+            background-color: rgb(24, 26, 27);
+        }
+
+        .bg-white.shadow {
+            background-color: rgb(24, 26, 27);
+        }
+
         .bg-white.border-b.border-gray-100 {
             background-color: rgb(24, 26, 27);
         }
@@ -23,6 +31,14 @@
             background-color: rgb(24, 26, 27);
         }
 
+        .max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8 {
+            background-color: rgb(24, 26, 27);
+        }
+
+        .max-w-7xl.mx-auto.py-6.px-4.sm:px-6.lg:px-8 {
+            background-color: rgb(24, 26, 27);
+        }
+
     </style>
 
 
@@ -31,7 +47,7 @@
 
 <body>
 
-    <div>
+    <div class="divdiv">
         <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -184,7 +200,7 @@
                 @endauth
             </div>
         </nav>
-
+    </div>
 </body>
 
 </html>
