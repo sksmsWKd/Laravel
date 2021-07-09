@@ -331,8 +331,12 @@ class PostsController extends Controller
     //인젝션 먼저,  라우트 파라미터는 나중에
     {
 
+
+
         $page = $request->page;
         $post = Post::find($id);
+        $post->count++;//조회수증가
+        $post->save();//db에반영
 
         return view('posts.show', compact('post', 'page'));
     }
@@ -350,9 +354,9 @@ class PostsController extends Controller
 
     public function mylists()
     {
-        // $posts = auth()->user()->posts()->latest()->paginate(5);
+        $posts = auth()->user()->posts()->latest()->paginate(5);
         // $posts = auth()->user()->posts()->orderby('title')->paginate(5);
-        $posts = Post::latest()->paginate(5);
+        // $posts = Post::latest()->paginate(5);
 
         return view('posts.mylists', ['posts' => $posts]);
     }
