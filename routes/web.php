@@ -32,6 +32,8 @@ require __DIR__ . '/auth.php';
 
 
 Route::get('/test4', [TestController::class, 'index']);
+Route::get('/posts/mylists', [PostsController::class, 'mylists'])->name('post.mylists');
+
 
 Route::get(
     '/posts/create',
@@ -67,4 +69,8 @@ Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update
 
 
 
-Route::delete('/posts/{post}', [PostsController::class, 'destroy'])->name('post.delete');
+Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.delete');
+
+Route::get('/checklist', [PostsController::class, 'checklist'])->name('checklist');
+
+Route::post('/checklist/check',  [PostController::class, 'checkstore'])->name('checkstore');
