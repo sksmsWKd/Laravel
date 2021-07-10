@@ -13,8 +13,8 @@ class CreateChecksTable extends Migration
      */
     public function up()
     {
-        Schema::create('checks', function (Blueprint $table) {
-            $table->increments('checkId')->primary();
+        Schema::create('mychecks', function (Blueprint $table) {
+            $table->increments('checkId');
             //자동증가 글의번호
             $table->timestamps();
 
