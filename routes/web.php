@@ -55,6 +55,9 @@ Route::get(
 )->name('posts.index');
 //->name 하면 이름 지정
 
+//7897898797
+Route::get('checklist', [PostsController::class, 'checklist'])->name('checklist');
+ Route::get('checkstore', [PostsController::class, 'checkstore'])->name('checkstore');
 
 
 Route::get('/posts/show/{id}', [PostsController::class, 'show'])->name('post.show');
@@ -67,10 +70,13 @@ Route::get('/posts/{post}', [PostsController::class, 'edit'])->name('post.edit')
 Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update');
 //db에서 update 연산 수행
 
+// Route::get('/checklist', [PostsController::class, 'checklist'])->name('checklist');
+
+
+
 
 
 Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.delete');
 
-Route::get('/checklist', [PostsController::class, 'checklist'])->name('checklist');
 
-Route::post('/checklist/check',  [PostController::class, 'checkstore'])->name('checkstore');
+
