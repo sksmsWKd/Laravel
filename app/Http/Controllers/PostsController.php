@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Check;
+use App\Models\Mycheck;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,15 +94,6 @@ class PostsController extends Controller
 
 
 
-
-    public function checkstore(Request $request)
-    {
-
-        //여기에 이제 정보를 넣어주세요.
-        //마리아db보면서.
-
-        return redirect('/checklist/check');
-    }
 
 
 
@@ -316,7 +309,7 @@ class PostsController extends Controller
         //DB에서 삭제하는 메소드
         //DB에 IMAGE가 NULL값-> 이미지 없음    OR   이미지 NULL 아님 -> 이미지 있음
         $post->delete();
-        return redirect()->route('posts.index', ['page' => $page]);
+    
     }
 
 
@@ -335,10 +328,22 @@ class PostsController extends Controller
 
         $page = $request->page;
         $post = Post::find($id);
-        $post->count++;//조회수증가
-        $post->save();//db에반영
+        // $post->count++;//조회수증가
+        // $post->save();//db에반영
+
+        /*
+        이 글을 조회한 사용자들 중에, 현재
+        로그인한 사용자가 포함되어 있는지를 체크하고 
+        포함되어있지 않으면 추가
+        포함되어 있으면 다음 단계로 넘어감
+        */
+
+        if(Auth::user() !=null && !$post->viewers->contains(Auth::user())){
+                $post->viewers()->attach(Auth::user()->id);
+        }
 
         return view('posts.show', compact('post', 'page'));
+        
     }
 
 
@@ -348,9 +353,28 @@ class PostsController extends Controller
 
     public function checklist()
     {
-        return view('checklist');
+
+         $check = new Mycheck();
+         $checks = $check::all();
+        return view('checklist',compact('check','checks'));
     }
 
+    public function checkstore(Request $request){
+
+    
+
+   $info = $request->checkName;
+       
+        $check = new Mycheck();
+         $checks = $check::all();
+            $check -> checklistInfo =  $info;
+        $check->user_id = Auth::user()->id;
+        $check ->save();
+    return redirect()->route('checklist',['checks' => $checks , 'check'=>$check]);
+
+
+    //route('post.show', ['id' => $id, 'page' => $request->page]);
+    }
 
     public function mylists()
     {
