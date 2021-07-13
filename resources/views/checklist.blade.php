@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
@@ -17,6 +19,8 @@
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <style>
         .form-control {
             color: white !important;
@@ -38,7 +42,22 @@
             color: white !important;
         }
 
+        .clock {
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            transform: translateX(-50%) translateY(-50%);
+            color: #0b748b;
+            font-size: 30px;
+            font-family: Orbitron;
+            letter-spacing: 7px;
+
+
+
+        }
+
     </style>
+
 </head>
 
 <body>
@@ -63,9 +82,42 @@
                     <div class="panel panel-default ">
                         <div class="panel-heading text-gray-300">
                             <label for="check" class="col-sm-8 control-label  mt-3">Add CheckList</label>
+                            <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+                            <script>
+                                function showTime() {
+                                    var date = new Date();
+                                    var h = date.getHours(); // 0 - 23
+                                    var m = date.getMinutes(); // 0 - 59
+                                    var s = date.getSeconds(); // 0 - 59
+                                    var session = "AM";
+
+                                    if (h == 0) {
+                                        h = 12;
+                                    }
+
+                                    if (h > 12) {
+                                        h = h - 12;
+                                        session = "PM";
+                                    }
+
+                                    h = (h < 10) ? "0" + h : h;
+                                    m = (m < 10) ? "0" + m : m;
+                                    s = (s < 10) ? "0" + s : s;
+
+                                    var time = h + ":" + m + ":" + s + " " + session;
+                                    document.getElementById("MyClockDisplay").innerText = time;
+                                    document.getElementById("MyClockDisplay").textContent = time;
+
+                                    setTimeout(showTime, 1000);
+
+                                }
+                                showTime();
+                            </script>
                         </div>
                     </div>
+
                 </li>
+
                 <li class="list-group-item text-gray-300">
                     <div class="items-center ">
                         <div class="form-group ">
@@ -87,7 +139,12 @@
                 <li class="list-group-item bg-gray-100 mt-3 border-t text-gray-300">
                     <div class="panel panel-default ">
                         <div class="panel-heading ">
-                            <label for="check" class="col-sm-8 control-label  mt-3">Your CheckList</label>
+                            <label for="check" class="col-sm-8 control-label  mt-3">Your CheckList
+
+
+
+                            </label>
+
                         </div>
                     </div>
                 <li class="list-group-item ">
@@ -103,10 +160,17 @@
 
                                         @foreach ($checks as $check)
 
+
                                             </tr>
                                             <td class="table-text">
-                                                <div> {{ $check->checklistInfo }}
+                                                <div>
+                                                    <button type="submit" {{-- onclick="location.href='checklist'" --}} class="btn btn-dark">
+                                                        <i class="fa fa-minus" style="color:red"></i>
+                                                    </button>
+                                                    {{ $check->checklistInfo }}
+
                                                     <br>
+
                                                     Created at {{ $check->created_at }}
                                                 </div>
                                             </td>

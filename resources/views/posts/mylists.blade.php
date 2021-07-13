@@ -232,9 +232,6 @@
                                         {{ $post->count > 0 ? Str::plural('view', $post->count) : 'view' }}
                                         {{-- 뒤의인자가 단수/복수에 따라 복수형태로도 가능 --}}
                                     </div>
-
-
-
                                 </li>
                             @endif
                         @endforeach

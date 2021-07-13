@@ -13,12 +13,18 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
 
+    <style>
+        body {
+            background-color: black;
+        }
 
+    </style>
 
 </head>
 
-<BODY>
+<body>
 
 
     <x-app-layout>
@@ -63,56 +69,64 @@
                         </div>
                     @enderror
                 </div>
+
                 <div class="form-group">
-                    <label for="content" id="content">content</label>
+                    <label for="content">content</label>
                     <textarea class="form-control" name="content"
                         id="content"> {{ old('content') ? old('content') : $post->content }}</textarea>
 
+                </div>
+                <script>
+                    ClassicEditor
+                        .create(document.querySelector('#content'))
+                        .catch(error => {
+                            console.error(error);
+                        });
+                </script>
+
+                @error('title')
+                    <div>
+                        {{ $message }}
+                    </div>
+                @enderror
 
 
-                    @error('title')
+                <div class="form-group">
+                    <img class="img-thumbnail" width="20%" src="{{ $post->imagePath() }}">
+
+                </div>
+
+                <div class="form-group">
+                    <label for="image" id="image">current image</label>
+
+                    <span>
+                        <textarea class="form-control" readonly> 현재 업로드된 이미지 : {{ $post->image }}
+현재 업로드된 이미지 경로 :{{ $post->imagePath() }}</textarea>
+
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="file">file</label>
+                    <input type="file" id="file" name="imageFile">
+
+
+
+                    @error('imageFile')
                         <div>
                             {{ $message }}
                         </div>
                     @enderror
+                    {{-- input name 에 넣는것 - >컨트롤러에 리퀘스트 --}}
+
+                </div>
 
 
-                    <div class="form-group">
-                        <img class="img-thumbnail" width="20%" src="{{ $post->imagePath() }}">
+                <div><button type="submit" class="btn btn-warning">수정 완료</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger" onclick="location.href='/posts/index'">수정
+                        취소</button>
 
-                    </div>
-
-                    <div class="form-group">
-                        <label for="image" id="image">current image</label>
-
-                        <span>
-                            <textarea class="form-control" readonly> 현재 업로드된 이미지 : {{ $post->image }}
- 현재 업로드된 이미지 경로 :{{ $post->imagePath() }}</textarea>
-
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">file</label>
-                        <input type="file" id="file" name="imageFile">
-
-
-
-                        @error('imageFile')
-                            <div>
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        {{-- input name 에 넣는것 - >컨트롤러에 리퀘스트 --}}
-
-                    </div>
-
-
-                    <div><button type="submit" class="btn btn-warning">수정 완료</button>
-                        &nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-danger" onclick="location.href='/posts/index'">수정
-                            취소</button>
-
-                    </div>
+                </div>
 
 
             </form>

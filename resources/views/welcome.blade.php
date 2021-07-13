@@ -19,7 +19,7 @@
         }
 
         body {
-            margin: 0
+            margin: 0;
         }
 
         a {
@@ -395,6 +395,11 @@
     <style>
         body {
             font-family: 'Nunito', sans-serif;
+        }
+
+
+        body {
+            background-color: black;
         }
 
     </style>
