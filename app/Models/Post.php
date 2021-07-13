@@ -31,4 +31,9 @@ class Post extends Model
         //관례에 따르면 외래키 기본키 안적어도 ㄱㅊ
 
     }
+
+    public function viewers(){
+        return $this->belongsToMany(User::class,'post_user','post_id','user_id','id','id','users');
+                                                // pivot 테이블      pivot 키    related pivot키 parentKey relatedKey
+    }
 }
