@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,7 +58,7 @@ Route::get(
 
 //7897898797
 Route::get('checklist', [PostsController::class, 'checklist'])->name('checklist');
- Route::get('checkstore', [PostsController::class, 'checkstore'])->name('checkstore');
+Route::get('checkstore', [PostsController::class, 'checkstore'])->name('checkstore');
 
 
 Route::get('/posts/show/{id}', [PostsController::class, 'show'])->name('post.show');
@@ -77,6 +78,4 @@ Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update
 
 
 Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.delete');
-
-
-
+Route::get('/chart/index', [ChartController::class, 'index']);
