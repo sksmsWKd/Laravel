@@ -192,8 +192,10 @@
         .container.border-opacity-50.border-gray-400.border-t.border-r.border-b.border-l.bg-gray-400 {
             background-color: rgb(24, 26, 27) !important;
         }
+
     </style>
 </head>
+
 <body>
     <x-app-layout>
         <x-slot name="header">

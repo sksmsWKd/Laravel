@@ -131,73 +131,80 @@
                                     <button type="submit" onclick="location.href='checklist'" class="btn btn-dark">
                                         <i class="fa fa-plus" style="color:red"></i> &nbsp;&nbsp; Add CheckList
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item bg-gray-100 mt-3 border-t text-gray-300">
-                    <div class="panel panel-default ">
-                        <div class="panel-heading ">
-                            <label for="check" class="col-sm-8 control-label  mt-3">Your CheckList
-
-
-
-                            </label>
-
-                        </div>
-                    </div>
-                <li class="list-group-item ">
-                    <div class="items-center  ">
-                        <div class="form-group ">
-                            <div class="panel-body">
-
-                                <table class="table table-striped  table-hover table-dark task-table text-gray-300 ">
-                                    <thead>
-                                        <th>Task</th>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach ($checks as $check)
-
-
-                                            </tr>
-                                            <td class="table-text">
-                                                <div>
-                                                    <button type="submit" {{-- onclick="location.href='checklist'" --}} class="btn btn-dark">
-                                                        <i class="fa fa-minus" style="color:red"></i>
-                                                    </button>
-                                                    {{ $check->checklistInfo }}
-
-                                                    <br>
-
-                                                    Created at {{ $check->created_at }}
-                                                </div>
-                                            </td>
-                                            </tr>
-                                        @endforeach
-
-
-
-                                    </tbody>
-                                    {{-- 여기 작성 예정 --}}
-                                </table>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </li>
-                </li>
-                {{-- @endforeach --}}
-
-                @csrf
             </form>
+
+        </div>
+        </div>
+        </div>
+        </div>
+        </li>
+
+
+        <li class="list-group-item bg-gray-100 mt-3 border-t text-gray-300">
+            <div class="panel panel-default ">
+                <div class="panel-heading ">
+                    <label for="check" class="col-sm-8 control-label  mt-3">Your CheckList
+
+
+
+                    </label>
+
+                </div>
+            </div>
+        <li class="list-group-item ">
+            <div class="items-center  ">
+                <div class="form-group ">
+                    <div class="panel-body">
+
+                        <table class="table table-striped  table-hover table-dark task-table text-gray-300 ">
+                            <thead>
+                                <th>Task</th>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($checks as $check)
+                                    <form action="{{ route('checkdelete', ['checkId' => $check->checkId]) }}"
+                                        method="delete" class="form-horizontal">
+                                        @csrf
+                                        @method('delete')
+                                        </tr>
+                                        <td class="table-text">
+                                            <div>
+                                                <button type="submit" class="btn btn-dark">
+                                                    <i class="fa fa-minus" style="color:red"></i>
+                                                </button>
+                                                {{ $check->checklistInfo }}
+
+                                                <br>
+
+                                                Created at {{ $check->created_at }}
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </form>
+                                @endforeach
+
+
+
+                            </tbody>
+                            {{-- 여기 작성 예정 --}}
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </li>
+        </li>
+        {{-- @endforeach --}}
+
+        @csrf
+
 
         </div>
 
         {{-- 여기 작성 예정 --}}
-
+        </form>
     </x-app-layout>
 </body>
 
