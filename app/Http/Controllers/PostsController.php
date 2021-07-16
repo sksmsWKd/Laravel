@@ -7,6 +7,7 @@ use App\Models\Mycheck;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -16,7 +17,7 @@ class PostsController extends Controller
 
 
 
-    
+
     public function __construct()
     {
         $this->middleware(['auth'])->except(['index', 'show']);
@@ -309,7 +310,8 @@ class PostsController extends Controller
         //DB에서 삭제하는 메소드
         //DB에 IMAGE가 NULL값-> 이미지 없음    OR   이미지 NULL 아님 -> 이미지 있음
         $post->delete();
-    
+
+        return redirect()->route('posts.index');
     }
 
 
@@ -338,15 +340,32 @@ class PostsController extends Controller
         포함되어 있으면 다음 단계로 넘어감
         */
 
-        if(Auth::user() !=null && !$post->viewers->contains(Auth::user())){
-                $post->viewers()->attach(Auth::user()->id);
+        if (Auth::user() != null && !$post->viewers->contains(Auth::user())) {
+            $post->viewers()->attach(Auth::user()->id);
         }
 
         return view('posts.show', compact('post', 'page'));
-        
     }
 
 
+
+
+    public function checkdelete(Request $request, $checkId)
+    {
+
+
+
+        $check =  Mycheck::firstOrFind($checkId);
+
+        $check->delete();
+
+
+
+
+
+
+        return redirect()->route('checklist', ['checkId' => $check->checkId]);
+    }
 
 
 
@@ -354,26 +373,27 @@ class PostsController extends Controller
     public function checklist()
     {
 
-         $check = new Mycheck();
-         $checks = $check::all();
-        return view('checklist',compact('check','checks'));
+        $check = new Mycheck();
+        $checks = $check::all();
+        return view('checklist', compact('check', 'checks'));
     }
 
-    public function checkstore(Request $request){
+    public function checkstore(Request $request)
+    {
 
-    
 
-   $info = $request->checkName;
-       
+
+        $info = $request->checkName;
+
         $check = new Mycheck();
-         $checks = $check::all();
-            $check -> checklistInfo =  $info;
+        $checks = $check::all();
+        $check->checklistInfo =  $info;
         $check->user_id = Auth::user()->id;
-        $check ->save();
-    return redirect()->route('checklist',['checks' => $checks , 'check'=>$check]);
+        $check->save();
+        return redirect()->route('checklist', ['checks' => $checks, 'check' => $check]);
 
 
-    //route('post.show', ['id' => $id, 'page' => $request->page]);
+        //route('post.show', ['id' => $id, 'page' => $request->page]);
     }
 
     public function mylists()
