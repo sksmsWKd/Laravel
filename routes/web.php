@@ -79,3 +79,5 @@ Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update
 
 Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.delete');
 Route::get('/chart/index', [ChartController::class, 'index']);
+
+Route::delete('/checklist', [PostsController::class, 'checkdelete'])->name('checkdelete');
