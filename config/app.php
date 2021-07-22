@@ -110,9 +110,9 @@ return [
 
     'faker_locale' => 'ko_KR',
 
-    
+
     // 'faker_locale' => 'jo_JP',
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
@@ -141,7 +141,10 @@ return [
     'providers' => [
 
         /*
-         * Laravel Framework Service Providers...
+         * 
+         * 
+         * 
+         *  Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -165,6 +168,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -178,6 +183,11 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+        * google auth
+        */
+
 
     ],
 
