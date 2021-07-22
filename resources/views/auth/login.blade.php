@@ -94,10 +94,12 @@
                         onclick="location.href=' {{ route('github.login') }}'"> <img
                             src="/storage/images/{{ $post->image ?? 'github.png' }}"></button>
                     &nbsp;&nbsp;
-                    <button type="button" class="btn btn-dark" id="img_btn"> <img
+                    <button type="button" class="btn btn-dark" id="img_btn"
+                        onclick="location.href=' {{ route('google.login') }}'"> <img
                             src="/storage/images/{{ $post->image ?? 'google.png' }}"></button>
                     &nbsp;&nbsp;
-                    <button type="button" class="btn btn-dark" id="img_btn"> <img
+                    <button type="button" class="btn btn-dark" id="img_btn"
+                        onclick="location.href=' {{ route('kakao.login') }}'"> <img
                             src="/storage/images/{{ $post->image ?? 'kakao.jpg' }}"></button>
                 </div>
 
