@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
     //protected $table = 'my_posts'
     //만약 테이블 이름이 posts 가 아니고 다른거면 명시를 해줌.
     use HasFactory;
+    use Searchable;
 
+    protected $fillable = ['title', 'story'];
 
 
     public function imagePath()
@@ -32,8 +35,14 @@ class Post extends Model
 
     }
 
-    public function viewers(){
-        return $this->belongsToMany(User::class,'post_user','post_id','user_id','id','id','users');
-                                                // pivot 테이블      pivot 키    related pivot키 parentKey relatedKey
+    public function viewers()
+    {
+        return $this->belongsToMany(User::class, 'post_user', 'post_id', 'user_id', 'id', 'id', 'users');
+        // pivot 테이블      pivot 키    related pivot키 parentKey relatedKey
+    }
+
+    public function searchableAs()
+    {
+        return 'posts';
     }
 }
