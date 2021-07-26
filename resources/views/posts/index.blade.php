@@ -169,6 +169,10 @@
             background-color: rgb(24, 26, 27) !important;
         }
 
+        .mt-5 {
+            color: aliceblue;
+        }
+
     </style>
 </head>
 
@@ -184,69 +188,79 @@
 
             </x-slot>
 
+            <div class="mt-5 ">
 
-            <div class="container mt-3">
-                {{-- <a href="{{ route('dashboard') }}">dashboard</a> --}}
-                {{-- <h1> index입니다</h1> --}}
-                @auth
-                    {{-- <div> <a href="/posts/create" " style=" color :lavender"> 게시글 작성</a> --}}
-                    <div class=" ml-3">
-                        <button type="button" onclick="location.href='/posts/create'" style=" color :lavender"
-                            class="btn btn-dark">
-                            write</button>
+
+                <div class="container mt-3">
+                    {{-- <a href="{{ route('dashboard') }}">dashboard</a> --}}
+                    {{-- <h1> index입니다</h1> --}}
+                    <div class="ml-3">
+                        <form action="{{ route('post.search') }}">
+                            <input type="text" style="background-color: rgb(24, 26, 27)" id="search" name="search">
+                            <button type="submit" style=" color :lavender" class="btn btn-dark">search</button>
+                        </form>
                     </div>
-                    <br>
-                @endauth
-                <ul class="list-group">
+                    @auth
+                        {{-- <div> <a href="/posts/create" " style=" color :lavender"> 게시글 작성</a> --}}
+                        <div class=" ml-3">
+                            <button type="button" onclick="location.href='/posts/create'" style=" color :lavender"
+                                class="btn btn-dark">
+                                write</button>
+                        </div>
+                        <br>
+                    @endauth
 
-                    <div class="text-gray-400">
-                        @foreach ($posts as $post)
-                            <li class="list-group-item">
+                    <ul class="list-group">
 
-                                <div class="items-center">
-                                    <span>
+                        <div class="text-gray-400">
+                            @foreach ($posts as $post)
+                                <li class="list-group-item">
 
-                                        <a href="{{ route('post.show', ['id' => $post->id, 'page' => $posts->currentPage()]) }}"
-                                            style=" color :lavender">
-                                            Title : {{ $post->title }}
+                                    <div class="items-center">
+                                        <span>
 
-                                        </a>
+                                            <a href="{{ route('post.show', ['id' => $post->id, 'page' => $posts->currentPage()]) }}"
+                                                style=" color :lavender">
+                                                Title : {{ $post->title }}
 
-                                    </span>
-                                </div>
+                                            </a>
 
-                                <br>
-                                <div>
-                                    {{-- {{ $post->content }} --}}
-                                    {!! $post->content !!}
-                                </div>
-                                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; written on
-                                    {{ $post->created_at->diffforHumans() }}</span>
-                                {{-- count 는 함수 --}}
+                                        </span>
+                                    </div>
+
+                                    <br>
+                                    <div>
+                                        {{-- {{ $post->content }} --}}
+                                        {!! $post->content !!}
+                                    </div>
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; written on
+                                        {{ $post->created_at->diffforHumans() }}</span>
+                                    {{-- count 는 함수 --}}
 
 
-                                <div>
-                                    written by {{ $post->user->name }}
-                                </div>
-                                <div>
-                                    {{ $post->viewers->count() }}
-                                    {{ $post->viewers->count() > 0 ? Str::plural('view', $post->viewers->count()) : 'view' }}
-                                    {{-- 뒤의인자가 단수/복수에 따라 복수형태로도 가능 --}}
-                                </div>
+                                    <div>
+                                        written by {{ $post->user->name }}
+                                    </div>
+                                    <div>
+                                        {{ $post->viewers->count() }}
+                                        {{ $post->viewers->count() > 0 ? Str::plural('view', $post->viewers->count()) : 'view' }}
+                                        {{-- 뒤의인자가 단수/복수에 따라 복수형태로도 가능 --}}
+                                    </div>
 
-                            </li>
-                        @endforeach
-                        {{-- 내부 스타일은 tailwind 지금 스타일링은 부트스트랩으로 되어서 큰화살표 나옴 --}}
+                                </li>
+                            @endforeach
+                            {{-- 내부 스타일은 tailwind 지금 스타일링은 부트스트랩으로 되어서 큰화살표 나옴 --}}
+                        </div>
+                    </ul>
+
+                    <div class="mt-5">
+
+
+                        {{ $posts->links() }}
                     </div>
-                </ul>
 
-                <div class="mt-5">
-                    {{ $posts->links() }}
-                    {{-- 자동으로 생긴 메서드. 링크 만들어 줌 --}}
+
                 </div>
-
-
-            </div>
 
 
         </x-app-layout>
