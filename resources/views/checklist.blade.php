@@ -42,20 +42,6 @@
             color: white !important;
         }
 
-        .clock {
-            position: absolute;
-            top: 50%;
-            left: 20%;
-            transform: translateX(-50%) translateY(-50%);
-            color: #0b748b;
-            font-size: 30px;
-            font-family: Orbitron;
-            letter-spacing: 7px;
-
-
-
-        }
-
     </style>
 
 </head>
@@ -82,37 +68,7 @@
                     <div class="panel panel-default ">
                         <div class="panel-heading text-gray-300">
                             <label for="check" class="col-sm-8 control-label  mt-3">Add CheckList</label>
-                            <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
-                            <script>
-                                function showTime() {
-                                    var date = new Date();
-                                    var h = date.getHours(); // 0 - 23
-                                    var m = date.getMinutes(); // 0 - 59
-                                    var s = date.getSeconds(); // 0 - 59
-                                    var session = "AM";
 
-                                    if (h == 0) {
-                                        h = 12;
-                                    }
-
-                                    if (h > 12) {
-                                        h = h - 12;
-                                        session = "PM";
-                                    }
-
-                                    h = (h < 10) ? "0" + h : h;
-                                    m = (m < 10) ? "0" + m : m;
-                                    s = (s < 10) ? "0" + s : s;
-
-                                    var time = h + ":" + m + ":" + s + " " + session;
-                                    document.getElementById("MyClockDisplay").innerText = time;
-                                    document.getElementById("MyClockDisplay").textContent = time;
-
-                                    setTimeout(showTime, 1000);
-
-                                }
-                                showTime();
-                            </script>
                         </div>
                     </div>
 
@@ -170,7 +126,8 @@
                                         </tr>
                                         <td class="table-text">
                                             <div>
-                                                <button type="submit" class="btn btn-dark">
+                                                <button type="submit" class="btn btn-dark"
+                                                    name={{ $check->checkId }},id={{ $check->checkId }}>
                                                     <i class="fa fa-minus" style="color:red"></i>
                                                 </button>
                                                 {{ $check->checklistInfo }}
