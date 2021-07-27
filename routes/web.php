@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/checkdelete', [PostsController::class, 'checkdelete'])->name('checkdelete');
+
 Route::get('/', function () {
     $auther = 'song';
     return view('welcome', [
@@ -57,6 +59,13 @@ Route::get(
 //->name 하면 이름 지정
 
 //7897898797
+
+
+Route::get('/posts/search', [PostsController::class, 'search'])->name('post.search');
+
+
+
+
 Route::get('checklist', [PostsController::class, 'checklist'])->name('checklist');
 Route::get('checkstore', [PostsController::class, 'checkstore'])->name('checkstore');
 
@@ -79,5 +88,3 @@ Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update
 
 Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.delete');
 Route::get('/chart/index', [ChartController::class, 'index']);
-
-Route::delete('/checklist', [PostsController::class, 'checkdelete'])->name('checkdelete');
