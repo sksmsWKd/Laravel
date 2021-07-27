@@ -81,8 +81,6 @@ class PostsController extends Controller
 
 
 
-
-
     public function create()
     {
 
@@ -329,7 +327,7 @@ class PostsController extends Controller
 
 
         $page = $request->page;
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         // $post->count++;//조회수증가
         // $post->save();//db에반영
 
@@ -350,21 +348,20 @@ class PostsController extends Controller
 
 
 
-    public function checkdelete(Request $request, $checkId)
+    public function checkdelete(Request $request)
     {
 
+        $num = Mycheck::findOrFail();
+        $checkId = $request->checkId;
 
 
-        $check =  Mycheck::firstOrFind($checkId);
-
-        $check->delete();
-
-
-
+        DB::table('mychecks')->where('checkId', '=', $checkId)->delete();
 
 
 
-        return redirect()->route('checklist', ['checkId' => $check->checkId]);
+
+
+        return redirect()->route('checklist', ['checkId' => $checkId]);
     }
 
 
@@ -403,5 +400,17 @@ class PostsController extends Controller
         // $posts = Post::latest()->paginate(5);
 
         return view('posts.mylists', ['posts' => $posts]);
+    }
+
+
+
+    public function search(Request $request)
+    {
+
+
+        $word = $request->input('search');
+
+        $searches = Post::search($word)->get();
+        return view('posts.search', (['word' => $word, 'searches' => $searches]));
     }
 }
