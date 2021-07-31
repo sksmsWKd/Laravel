@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Check;
+use App\Models\Comment;
 use App\Models\Mycheck;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -331,6 +332,12 @@ class PostsController extends Controller
         // $post->count++;//조회수증가
         // $post->save();//db에반영
 
+
+        $comment = new Comment();
+
+        $comments = $comment::all();
+
+
         /*
         이 글을 조회한 사용자들 중에, 현재
         로그인한 사용자가 포함되어 있는지를 체크하고 
@@ -342,7 +349,7 @@ class PostsController extends Controller
             $post->viewers()->attach(Auth::user()->id);
         }
 
-        return view('posts.show', compact('post', 'page'));
+        return view('posts.show', compact('post', 'page', 'comments'));
     }
 
 
