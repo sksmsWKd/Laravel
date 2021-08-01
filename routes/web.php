@@ -81,13 +81,10 @@ Route::get('/posts/{post}', [PostsController::class, 'edit'])->name('post.edit')
 Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update');
 //db에서 update 연산 수행
 
-// Route::get('/checklist', [PostsController::class, 'checklist'])->name('checklist');
-
-
-
-
 
 Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.delete');
+
 Route::get('/chart/index', [ChartController::class, 'index']);
 
-Route::put('/comments/store', [CommentController::class, 'commentSave'])->name('comment.store');
+Route::put('/posts/{id}/comments/store', [CommentController::class, 'commentSave'])->name('comment.store');
+//comment 체크
