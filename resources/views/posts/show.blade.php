@@ -228,6 +228,12 @@
             {{-- 토큰을 넣는다.
             내가만든 페이지로 요청이 왔구나. 피싱 사이트의 요청이 아닌것을 판단. --}}
             <div class="form-group text-gray-300">
+                <label>글 번호</label>
+                <input type="text" readonly class="form-control" value="{{ $post->id }}"
+                    style="background:rgb(30, 32, 34)">
+                {{-- ->diffforHumans() --}}
+            </div>
+            <div class="form-group text-gray-300">
                 <label>등록일</label>
                 <input type="text" readonly class="form-control" value="{{ $post->created_at }}"
                     style="background:rgb(30, 32, 34)">
@@ -250,7 +256,47 @@
                 </div>
             </div>
             {{-- input name 에 넣는것 - >컨트롤러에 리퀘스트 --}}
+            <br><br>
+
+            <div class="form-group text-gray-300">
+                <label>댓글</label>
+
+                <form action="{{ route('comment.store', ['id' => $post->id]) }}" method="post">
+                    @csrf
+                    @method("put")
+                    <input type="text" id="content" name="content">
+
+
+                    <button type="submit" style=" color :lavender" class="btn btn-dark">작성</button>
+                </form>
+
+
+            </div>
+            <table class="table table-striped  table-hover table-dark task-table text-gray-300 ">
+                <thead class=" table-hover table-secondary text-black">
+                    <th>댓글 리스트</th>
+                </thead>
+                <tbody>
+                    @foreach ($comments as $comment)
+                        @if ($comment->post_id == $post->id)
+                            <tr>
+                                <td class="table-dark">
+                                    <div>
+                                        <div>
+                                            작성자 : {{ $post->user_id }}
+                                            {{ $comment->content }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+
+        </div>
+
         @auth
             {{-- @if (auth()->user()->id == $post->user_id)   policy 만들기 전에 권한 관리이렇게함 --}}
             @can('update', $post)
