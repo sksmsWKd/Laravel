@@ -119,26 +119,28 @@
                             <tbody>
 
                                 @foreach ($checks as $check)
+
                                     <form action="{{ route('checkdelete', ['checkId' => $check->checkId]) }}"
                                         method="delete" class="form-horizontal">
                                         @csrf
                                         @method('delete')
-                                        </tr>
-                                        <td class="table-text">
-                                            <div>
-                                                <button type="submit" class="btn btn-dark"
-                                                    name={{ $check->checkId }},id={{ $check->checkId }}>
-                                                    <i class="fa fa-minus" style="color:red"></i>
-                                                </button>
-                                                {{ $check->checklistInfo }}
+                                        <tr>
+                                            <td class="table-text">
+                                                <div>
+                                                    <button type="submit" class="btn btn-dark"
+                                                        name={{ $check->checkId }},id={{ $check->checkId }}>
+                                                        <i class="fa fa-minus" style="color:red"></i>
+                                                    </button>
+                                                    {{ $check->checklistInfo }}
 
-                                                <br>
+                                                    <br>
 
-                                                Created at {{ $check->created_at }}
-                                            </div>
-                                        </td>
+                                                    Created at {{ $check->created_at }}
+                                                </div>
+                                            </td>
                                         </tr>
                                     </form>
+
                                 @endforeach
 
 
