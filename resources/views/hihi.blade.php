@@ -13,7 +13,7 @@
     @yield('header')
     @yield('body')
     @yield('footer')
-
+    {{-- yield 에 넣을곳 입력 --}}
 
     --1회
     <br>
