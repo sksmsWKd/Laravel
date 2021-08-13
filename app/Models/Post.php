@@ -38,7 +38,7 @@ class Post extends Model
     public function viewers()
     {
         return $this->belongsToMany(User::class, 'post_user', 'post_id', 'user_id', 'id', 'id', 'users');
-        // pivot 테이블      pivot 키    related pivot키 parentKey relatedKey
+        //                                       pivot 테이블    pivot 키 related pivot키 parentKey relatedKey
     }
 
     public function searchableAs()
