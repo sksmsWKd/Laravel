@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Mycheck extends Model
 {
 
-    protected $table = 'mychecks';
+
     use HasFactory;
 }
