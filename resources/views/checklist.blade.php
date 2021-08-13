@@ -121,20 +121,18 @@
                                 @foreach ($checks as $check)
 
                                     <form action="{{ route('checkdelete', ['checkId' => $check->checkId]) }}"
-                                        method="delete" class="form-horizontal">
+                                        class="form-horizontal">
                                         @csrf
                                         @method('delete')
                                         <tr>
                                             <td class="table-text">
                                                 <div>
                                                     <button type="submit" class="btn btn-dark"
-                                                        name={{ $check->checkId }},id={{ $check->checkId }}>
+                                                        name={{ $check->checkId }} id={{ $check->checkId }}>
                                                         <i class="fa fa-minus" style="color:red"></i>
                                                     </button>
                                                     {{ $check->checklistInfo }}
-
                                                     <br>
-
                                                     Created at {{ $check->created_at }}
                                                 </div>
                                             </td>
@@ -163,7 +161,7 @@
         </div>
 
         {{-- 여기 작성 예정 --}}
-        </form>
+
     </x-app-layout>
 </body>
 
