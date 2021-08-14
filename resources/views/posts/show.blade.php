@@ -19,6 +19,8 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         .max-w-7xl.mx-auto.py-6.px-4.sm:px-6.lg:px-8 {
@@ -215,7 +217,7 @@
             <div class="form-group text-gray-300">
                 <label for="title">Title</label>
                 <input type="text" readonly name="title" class="form-control" id="title" value="{{ $post->title }}"
-                    style="background:rgb(30, 32, 34)">
+                    style="color: aliceblue">
             </div>
             <div class="form-group text-gray-300">
                 <label for="content">Content</label>
@@ -225,29 +227,31 @@
                 </div>
                 {{-- <textarea readonly name="content" class="form-control" id="content"> {!! $post->content !!}</textarea> --}}
             </div>
+            <br>
+            <br>
+            <br>
             {{-- 토큰을 넣는다.
             내가만든 페이지로 요청이 왔구나. 피싱 사이트의 요청이 아닌것을 판단. --}}
             <div class="form-group text-gray-300">
                 <label>글 번호</label>
-                <input type="text" readonly class="form-control" value="{{ $post->id }}"
-                    style="background:rgb(30, 32, 34)">
+                <input type="text" readonly class="form-control" value="{{ $post->id }}" style="color: aliceblue">
                 {{-- ->diffforHumans() --}}
             </div>
             <div class="form-group text-gray-300">
                 <label>등록일</label>
                 <input type="text" readonly class="form-control" value="{{ $post->created_at }}"
-                    style="background:rgb(30, 32, 34)">
+                    style="color: aliceblue">
                 {{-- ->diffforHumans() --}}
             </div>
             <div class="form-group text-gray-300">
                 <label>수정일</label>
                 <input type="text" readonly class="form-control" value="{{ $post->updated_at }}"
-                    style="background:rgb(30, 32, 34)">
+                    style="color: aliceblue" style="color: aliceblue">
             </div>
             <div class="form-group text-gray-300">
                 <label>작성자</label>
                 <input type="text" readonly class="form-control" value="{{ $post->user->name }}"
-                    style="background:rgb(30, 32, 34)">
+                    style="color: aliceblue">
             </div>
             <div class="from-group text-gray-300">
                 <label for="imageFile">이미지</label>
@@ -258,24 +262,69 @@
             {{-- input name 에 넣는것 - >컨트롤러에 리퀘스트 --}}
             <br><br>
 
-            <div class="form-group text-gray-300">
-                <label>댓글</label>
+            <div>
 
-                <form action="{{ route('comment.store', ['id' => $post->id]) }}" method="post">
+                <form action="{{ route('addlike', ['id' => $post->id]) }}" method="post">
+
                     @csrf
-                    @method("put")
-                    <input type="text" id="content" name="content">
 
+                    <x-button type="submit">
+                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                        LIKE {{ $feelings->sum('like') }}
+                    </x-button>
+                </form>
+                <form action="{{ route('adddislike', ['id' => $post->id]) }}" method="post">
 
-                    <button type="submit" style=" color :lavender" class="btn btn-dark">작성</button>
+                    @csrf
+
+                    <x-button type="submit">
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        DISLIKE{{ $feeling->sum('dislike') }}
+                    </x-button>
                 </form>
 
 
+
+
             </div>
+
+            <br>
+            <br>
+
+            <div class="form-group text-gray-300">
+                <label>댓글</label>
+
+                @auth
+                    <form action="{{ route('comment.store', ['id' => $post->id]) }}" method="post">
+                        @csrf
+                        @method("put")
+
+                        <input type="text" class="form-control" name="content" id="content" style="color:white" />
+
+
+                        <button type="submit" style=" color :lavender" class="btn btn-dark">작성</button>
+                    </form>
+                @endauth
+
+
+            </div>
+            <br>
+            <br>
+
+
+
             <table class="table table-striped  table-hover table-dark task-table text-gray-300 ">
-                <thead class=" table-hover table-secondary text-black">
-                    <th>댓글 리스트</th>
+
+                <thead class=" table-hover table-secondary table-gray-800 text-black">
+
+                    <th> 댓글 개수 &nbsp;{{ $getget[0]['cID'] }}
+                        {{-- {{ $get }} --}}
+                        &nbsp;개
+                        <br>
+                        댓글 리스트
+                    </th>
                 </thead>
+
                 <tbody>
                     @foreach ($comments as $comment)
                         @if ($comment->post_id == $post->id)
@@ -283,8 +332,34 @@
                                 <td class="table-dark">
                                     <div>
                                         <div>
-                                            작성자 : {{ $post->user_id }}
+                                            작성자 : &nbsp;&nbsp;&nbsp;{{ $comment->user_name }}
+                                            <br>
+                                            내용 &nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;
                                             {{ $comment->content }}
+                                            <br>
+                                            작성일 &nbsp;: &nbsp;&nbsp; {{ $comment->created_at }}
+                                            <br>
+
+
+
+                                            @auth
+                                                @if (Auth::user()->id == $comment->user_id)
+                                                    <form
+                                                        action="{{ route('commentdelete', ['cID' => $comment->cID]) }}">
+                                                        <button type="submit" style=" color :red"
+                                                            class="btn btn-dark">삭제</button>
+                                                    </form>
+                                                @endif
+
+
+                                                @if (Auth::user()->id != $comment->user_id)
+                                                    <form action="">
+                                                        <button type="submit" style=" color :lavender"
+                                                            class="btn btn-dark">답글</button>
+
+                                                    </form>
+                                                @endif
+                                            @endauth
                                         </div>
                                     </div>
                                 </td>
@@ -292,7 +367,9 @@
                         @endif
                     @endforeach
                 </tbody>
+
             </table>
+
         </div>
 
         </div>
