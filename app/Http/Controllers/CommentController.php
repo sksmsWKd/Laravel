@@ -14,22 +14,33 @@ class CommentController extends Controller
     public function commentSave(Request $request, $id)
     {
 
+        $setcontent = $request->content;
 
 
-        $post = Post::findOrFail($id);
         $request->validate([
             'content' => 'required|max:100',
 
         ]);
 
-
+        $post = Post::findOrFail($id);
 
         $making = new Comment();
-        $making->content  = $request->input('content');
+        $making->content = $setcontent;
         $making->post_id = $post->id;
+        $making->user_name = Auth::user()->name;
 
+        $making->user_id = Auth::user()->id;
 
         $making->save();
-        return redirect();
+
+
+        return redirect()->back();
+    }
+
+    public function commentdelete($cID)
+    {
+        DB::table('comments')->where('cID',  $cID)->delete();
+
+        return back();
     }
 }
