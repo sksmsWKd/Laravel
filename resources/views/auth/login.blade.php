@@ -101,6 +101,10 @@
                     <button type="button" class="btn btn-dark" id="img_btn"
                         onclick="location.href=' {{ route('kakao.login') }}'"> <img
                             src="/storage/images/{{ $post->image ?? 'kakao.jpg' }}"></button>
+
+
+                    <x-button onclick="location.href='{{ route('register') }}'" type=" button" class="ml-3">register
+                    </x-button>
                 </div>
 
 
