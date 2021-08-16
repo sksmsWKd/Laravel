@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Check;
 use App\Models\Comment;
+use App\Models\Feeling;
 use App\Models\Mycheck;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -11,12 +12,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\Input;
+
+use function PHPSTORM_META\map;
 
 class PostsController extends Controller
 {
 
 
-
+    // public function hihi2()
+    // {
+    //     return view('hihi2');
+    // }
 
 
     public function __construct()
@@ -337,6 +344,11 @@ class PostsController extends Controller
 
         $comments = $comment::all();
 
+        $feeling = new Feeling();
+        $feelings = $feeling::all();
+
+
+
 
         /*
         이 글을 조회한 사용자들 중에, 현재
@@ -349,26 +361,42 @@ class PostsController extends Controller
             $post->viewers()->attach(Auth::user()->id);
         }
 
-        return view('posts.show', compact('post', 'page', 'comments'));
+
+        $get = DB::table('comments')->select('post_id', DB::raw('count(*)as cID'))->groupBy('post_id')->where('post_id', $id)->get();
+
+        $getget = json_decode($get, true);
+
+
+        return view('posts.show', compact('post', 'page', 'comments', 'getget', 'feelings', 'feeling'));
     }
 
 
 
 
-    public function checkdelete(Request $request)
+    public function checkdelete(Request $request, $checkId)
     {
 
-        $num = Mycheck::findOrFail();
-        $checkId = $request->checkId;
-
-
-        DB::table('mychecks')->where('checkId', '=', $checkId)->delete();
 
 
 
 
 
-        return redirect()->route('checklist', ['checkId' => $checkId]);
+        DB::table('mychecks')->where('checkId',  $checkId)->delete();
+
+        // $allcheck = Mycheck::all()->where('checkId', $checkIdId);
+        // $allcheck->DB::delete();
+
+
+
+
+
+
+
+
+
+
+        // return redirect()->route('checklist', ['checkId' => $checkId]);
+        return redirect('checklist');
     }
 
 
