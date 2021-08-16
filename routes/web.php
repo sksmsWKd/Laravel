@@ -3,6 +3,8 @@
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\FeelingController;
+use App\Models\Feeling;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/checkdelete', [PostsController::class, 'checkdelete'])->name('checkdelete');
+// Route::get('hihi2', [PostsController::class, 'hihi2']);
+
+
+
+
+Route::get('/checkdelete/{checkId}', [PostsController::class, 'checkdelete'])->name('checkdelete');
+Route::get('/commentdelete/{cID}', [CommentController::class, 'commentdelete'])->name('commentdelete');
 
 Route::get('/', function () {
     $auther = 'song';
@@ -87,4 +95,8 @@ Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.de
 Route::get('/chart/index', [ChartController::class, 'index']);
 
 Route::put('/posts/{id}/comments/store', [CommentController::class, 'commentSave'])->name('comment.store');
+
+
+Route::post('/addlike/{id}', [FeelingController::class, 'addLike'])->name('addlike');
+Route::post('/adddisilke/{id}', [FeelingController::class, 'addDislike'])->name('adddislike');
 //comment 체크
