@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\Input;
+use RealRashid\SweetAlert\Facades\Alert;
 
 use function PHPSTORM_META\map;
 
@@ -356,6 +357,7 @@ class PostsController extends Controller
         포함되어있지 않으면 추가
         포함되어 있으면 다음 단계로 넘어감
         */
+
 
         if (Auth::user() != null && !$post->viewers->contains(Auth::user())) {
             $post->viewers()->attach(Auth::user()->id);

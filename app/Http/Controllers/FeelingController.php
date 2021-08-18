@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class FeelingController extends Controller
 {
@@ -23,17 +24,17 @@ class FeelingController extends Controller
         $feeling->like = 1;
 
         $feeling->check = 1;
+        Alert::warning('Please push feeling button once', 'you already pushed');
 
 
+        if (DB::table('feelings')->where('post_id',  $feeling->post_id)->where('user_id',  Auth::user()->id)->exists()) {
 
-        if ($dd = DB::table('feelings')->where('post_id',  $feeling->post_id)->where('user_id',  Auth::user()->id)->get()) {
 
-
-            dd($dd);
 
             return redirect()->route('post.show', ['feeling' => $feeling, 'id' => $id]);
         } else {
             $feeling->save();
+
             return redirect()->route('post.show', ['feeling' => $feeling, 'id' => $id]);
         }
 
@@ -58,7 +59,7 @@ class FeelingController extends Controller
         $feeling->check = 1;
 
 
-        if (DB::table('feelings')->where('post_id',  $feeling->post_id)->where('user_id',  Auth::user()->id)) {
+        if (DB::table('feelings')->where('post_id',  $feeling->post_id)->where('user_id',  Auth::user()->id)->exists()) {
 
 
 

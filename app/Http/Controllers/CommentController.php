@@ -6,8 +6,10 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CommentController extends Controller
 {
@@ -31,16 +33,36 @@ class CommentController extends Controller
 
         $making->user_id = Auth::user()->id;
 
+
         $making->save();
 
 
         return redirect()->back();
     }
 
-    public function commentdelete($cID)
+    public function commentdelete($id)
     {
-        DB::table('comments')->where('cID',  $cID)->delete();
+        DB::table('comments')->find($id)->delete();
 
         return back();
+    }
+
+    public function commentUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'content2' => 'required|max:100',
+
+        ]);
+        $setcontent2 = $request->content2;
+
+
+        // $comment = Comment::where('cID', $cID)->first();
+        $comment = Comment::find($id)->first();
+
+        $comment->content = $setcontent2;
+
+
+        $comment->save();
+        return redirect()->back();
     }
 }
