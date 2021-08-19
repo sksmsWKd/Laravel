@@ -40,29 +40,41 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
-    public function commentdelete($id)
+    public function commentdelete($cid)
     {
-        DB::table('comments')->find($id)->delete();
+
+        Alert::success('Jobs done', 'your comment deleted');
+        $comment = Comment::find($cid);
+        $comment->delete();
 
         return back();
     }
 
-    public function commentUpdate(Request $request, $id)
+    public function commentUpdate(Request $request, $cid)
     {
         $request->validate([
             'content2' => 'required|max:100',
 
         ]);
-        $setcontent2 = $request->content2;
+
 
 
         // $comment = Comment::where('cID', $cID)->first();
-        $comment = Comment::find($id)->first();
 
-        $comment->content = $setcontent2;
+
+
+
+        $comment = Comment::find($cid);
+
+
+
+        $comment->content = $request->content2;
 
 
         $comment->save();
+
+
+        Alert::success('Jobs done', 'your comment has been updated');
         return redirect()->back();
     }
 }
