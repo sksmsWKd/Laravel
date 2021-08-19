@@ -364,7 +364,7 @@ class PostsController extends Controller
         }
 
 
-        $get = DB::table('comments')->select('post_id', DB::raw('count(*)as cID'))->groupBy('post_id')->where('post_id', $id)->get();
+        $get = DB::table('comments')->select('post_id', DB::raw('count(*)as id'))->groupBy('post_id')->where('post_id', $id)->get();
 
         $getget = json_decode($get, true);
 
