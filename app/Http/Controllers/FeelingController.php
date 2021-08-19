@@ -24,13 +24,13 @@ class FeelingController extends Controller
         $feeling->like = 1;
 
         $feeling->check = 1;
-        Alert::warning('Please push feeling button once', 'you already pushed');
+
 
 
         if (DB::table('feelings')->where('post_id',  $feeling->post_id)->where('user_id',  Auth::user()->id)->exists()) {
 
 
-
+            Alert::warning('Please push feeling button once', 'you already pushed');
             return redirect()->route('post.show', ['feeling' => $feeling, 'id' => $id]);
         } else {
             $feeling->save();
