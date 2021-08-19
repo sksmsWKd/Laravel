@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
@@ -21,6 +21,7 @@
     </script>
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
     <style>
         .max-w-7xl.mx-auto.py-6.px-4.sm:px-6.lg:px-8 {
@@ -200,6 +201,7 @@
 
 <body>
     <x-app-layout>
+
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-300 leading-tight">
                 {{ __('게시물 상세보기') }}
@@ -270,7 +272,7 @@
 
                     <x-button type="submit">
                         <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                        LIKE {{ $feelings->sum('like') }}
+                        LIKE {{ $feelings->where('post_id', $post->id)->sum('like') }}
                     </x-button>
                 </form>
                 <form action="{{ route('adddislike', ['id' => $post->id]) }}" method="post">
@@ -279,7 +281,7 @@
 
                     <x-button type="submit">
                         <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                        DISLIKE{{ $feeling->sum('dislike') }}
+                        DISLIKE{{ $feelings->where('post_id', $post->id)->sum('dislike') }}
                     </x-button>
                 </form>
 
@@ -317,11 +319,16 @@
 
                 <thead class=" table-hover table-secondary table-gray-800 text-black">
 
-                    <th> 댓글 개수 &nbsp;{{ $getget[0]['cID'] }}
-                        {{-- {{ $get }} --}}
-                        &nbsp;개
-                        <br>
-                        댓글 리스트
+                    <th> 댓글 개수 &nbsp;
+                        @if ($getget != null) {{ $getget[0]['id'] }}
+                            &nbsp;개
+                        @endif
+                        @if ($getget == null)
+                            {{-- {{ $get }} --}}
+                            &nbsp;0 개
+                            <br>
+                            댓글 리스트
+                        @endif
                     </th>
                 </thead>
 
@@ -342,24 +349,39 @@
 
 
 
-                                            @auth
-                                                @if (Auth::user()->id == $comment->user_id)
-                                                    <form
-                                                        action="{{ route('commentdelete', ['cID' => $comment->cID]) }}">
-                                                        <button type="submit" style=" color :red"
-                                                            class="btn btn-dark">삭제</button>
-                                                    </form>
-                                                @endif
+                                            {{-- @if (Auth::user()->id == $comment->user_id) --}}
+                                            <form action="{{ route('comment.update', ['cid' => $comment->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method("PUT")
+
+                                                <input type="text" class="form-control" name="content2" id="content2"
+                                                    style="color:white" />
 
 
-                                                @if (Auth::user()->id != $comment->user_id)
-                                                    <form action="">
-                                                        <button type="submit" style=" color :lavender"
-                                                            class="btn btn-dark">답글</button>
+                                                <button type="submit" style=" color :lavender"
+                                                    class="btn btn-dark">수정</button>
 
-                                                    </form>
-                                                @endif
-                                            @endauth
+                                            </form>
+
+                                            {{-- @endif --}}
+
+                                            {{-- @if (Auth::user()->id == $comment->user_id) --}}
+                                            <form action=" {{ route('commentdelete', ['cid' => $comment->id]) }}">
+                                                <button type="submit" style=" color :red"
+                                                    class="btn btn-dark">삭제</button>
+                                            </form>
+                                            {{-- @endif --}}
+
+
+                                            {{-- @if (Auth::user()->id != $comment->user_id) --}}
+                                            <form action="">
+                                                <button type=" submit" style=" color :lavender"
+                                                    class="btn btn-dark">답글</button>
+
+                                            </form>
+                                            {{-- @endif --}}
+
                                         </div>
                                     </div>
                                 </td>
