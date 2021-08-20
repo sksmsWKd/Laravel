@@ -156,6 +156,8 @@ class PostsController extends Controller
             $post->image = $this->uploadPostImage($request);
         }
         $post->save();
+
+        Alert::success('Jobs done', 'post has been uploaded');
         //결과 뷰를 반환
         return redirect('/posts/index');
         //결과를 보고싶으면 get 방식으로 요청을 다시 보내세요~
@@ -274,6 +276,8 @@ class PostsController extends Controller
         $post->content = $request->content;
         $post->save();
 
+        Alert::success('Jobs done', 'your post has been updated');
+
         return redirect()->route('post.show', ['id' => $id, 'page' => $request->page]);
         //페이지 정보를 같이 줘야함
 
@@ -317,6 +321,8 @@ class PostsController extends Controller
         //DB에서 삭제하는 메소드
         //DB에 IMAGE가 NULL값-> 이미지 없음    OR   이미지 NULL 아님 -> 이미지 있음
         $post->delete();
+        Alert::success('Jobs done', 'Your post has been deleted');
+
 
         return redirect()->route('posts.index');
     }
@@ -424,6 +430,8 @@ class PostsController extends Controller
         $check->checklistInfo =  $info;
         $check->user_id = Auth::user()->id;
         $check->save();
+
+        Alert::success('Jobs done', 'Add checklist success');
         return redirect()->route('checklist', ['checks' => $checks, 'check' => $check]);
 
 
