@@ -30,7 +30,7 @@ class FeelingController extends Controller
         if (DB::table('feelings')->where('post_id',  $feeling->post_id)->where('user_id',  Auth::user()->id)->exists()) {
 
 
-            Alert::warning('Please push feeling button once', 'you already pushed');
+            Alert::warning('Please push feeling button once', 'You already pushed!');
             return redirect()->route('post.show', ['feeling' => $feeling, 'id' => $id]);
         } else {
             $feeling->save();
@@ -62,7 +62,7 @@ class FeelingController extends Controller
         if (DB::table('feelings')->where('post_id',  $feeling->post_id)->where('user_id',  Auth::user()->id)->exists()) {
 
 
-
+            Alert::warning('Please push feeling button once', 'You already pushed!');
             return redirect()->route('post.show', ['feeling' => $feeling, 'id' => $id]);
         }
         $feeling->save();
