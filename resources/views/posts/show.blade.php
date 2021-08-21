@@ -182,6 +182,7 @@
 
         button {
             align-items: center !important;
+
         }
 
         body {
@@ -195,6 +196,8 @@
         .container.border-opacity-50.border-gray-400.border-t.border-r.border-b.border-l.bg-gray-400 {
             background-color: rgb(24, 26, 27) !important;
         }
+
+        .btnbox {}
 
     </style>
 </head>
@@ -304,7 +307,7 @@
                         <input type="text" class="form-control" name="content" id="content" style="color:white" />
 
 
-                        <button type="submit" style=" color :lavender" class="btn btn-dark">작성</button>
+                        <x-button type="submit" style=" color :lavender" class="btn btn-dark">작성</x-button>
                     </form>
                 @endauth
 
@@ -347,43 +350,49 @@
                                             작성일 &nbsp;: &nbsp;&nbsp; {{ $comment->created_at }}
                                             <br>
 
+                                            <div class="btnbox">
+                                                @if (Auth::user()->id == $comment->user_id)
+                                                    {{-- @if (Auth::user()->id == $comment->user_id) --}}
+                                                    <form
+                                                        action="{{ route('comment.update', ['cid' => $comment->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method("PUT")
+
+                                                        <input type="text" class="form-control" name="content2"
+                                                            id="content2" style="color:white" />
 
 
-                                            {{-- @if (Auth::user()->id == $comment->user_id) --}}
-                                            <form action="{{ route('comment.update', ['cid' => $comment->id]) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method("PUT")
+                                                        <button type="submit" style=" color :lavender "
+                                                            class="btn btn-secondary pull-left ">수정</button>
 
-                                                <input type="text" class="form-control" name="content2" id="content2"
-                                                    style="color:white" />
+                                                    </form>
 
+                                                    {{-- @endif --}}
 
-                                                <button type="submit" style=" color :lavender"
-                                                    class="btn btn-dark">수정</button>
-
-                                            </form>
-
-                                            {{-- @endif --}}
-
-                                            {{-- @if (Auth::user()->id == $comment->user_id) --}}
-                                            <form action=" {{ route('commentdelete', ['cid' => $comment->id]) }}">
-                                                <button type="submit" style=" color :red"
-                                                    class="btn btn-dark">삭제</button>
-                                            </form>
-                                            {{-- @endif --}}
+                                                    {{-- @if (Auth::user()->id == $comment->user_id) --}}
 
 
-                                            {{-- @if (Auth::user()->id != $comment->user_id) --}}
-                                            <form action="">
-                                                <button type=" submit" style=" color :lavender"
-                                                    class="btn btn-dark">답글</button>
+                                                    <form
+                                                        action=" {{ route('commentdelete', ['cid' => $comment->id]) }}">
+                                                        <button type="submit" style=" color :red "
+                                                            class="btn btn-secondary pull-left">삭제</button>
+                                                    </form>
+                                                    {{-- @endif --}}
+                                                @endif
+                                            </div>
 
-                                            </form>
-                                            {{-- @endif --}}
+                                            @if (Auth::user()->id != $comment->user_id)
+                                                <form action="">
+                                                    <button type=" submit" style=" color :lavender "
+                                                        class="btn btn-secondary">답글</button>
 
+                                                </form>
+                                            @endif
                                         </div>
+
                                     </div>
+
                                 </td>
                             </tr>
                         @endif
@@ -401,13 +410,13 @@
             @can('update', $post)
                 <div class="container mt-5">
                     <div>
-                        <button class="btn btn-warning"
+                        <button class="btn btn-warning  pull-left "
                             onclick="location.href='{{ route('post.edit', ['post' => $post->id, 'page' => $page]) }}'">수정</button>
                         <form action="{{ route('post.delete', ['id' => $post->id, 'page' => $page]) }}" method="post">
                             {{-- querystring 으로 온것은(파라미터) request(객체에서) 빼내야함 --}}
                             @csrf
                             @method("delete")
-                            <button class="btn btn-danger">삭제</button>
+                            <button class="btn btn-danger  pull-left ">삭제</button>
                             {{-- location.href - > get방식 --}}
                     </div>
                 </div>
