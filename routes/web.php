@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('hihi2', [PostsController::class, 'hihi2']);
+Route::put('/posts/{id}/comments/store', [CommentController::class, 'commentSave'])->name('comment.store');
 
-
-
+Route::put('/commentsupdate/{cid}', [CommentController::class, 'commentUpdate'])->name('comment.update');
 
 Route::get('/checkdelete/{checkId}', [PostsController::class, 'checkdelete'])->name('checkdelete');
-Route::get('/commentdelete/{cID}', [CommentController::class, 'commentdelete'])->name('commentdelete');
+Route::get('/commentdelete/{cid}', [CommentController::class, 'commentdelete'])->name('commentdelete');
 
 Route::get('/', function () {
     $auther = 'song';
@@ -94,7 +94,7 @@ Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.de
 
 Route::get('/chart/index', [ChartController::class, 'index']);
 
-Route::put('/posts/{id}/comments/store', [CommentController::class, 'commentSave'])->name('comment.store');
+
 
 
 Route::post('/addlike/{id}', [FeelingController::class, 'addLike'])->name('addlike');
