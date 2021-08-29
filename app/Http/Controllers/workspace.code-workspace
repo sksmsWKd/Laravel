@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"name": "htdocs",
+			"path": "..\\..\\..\\..\\..\\..\\Bitnami\\wampstack-8.0.7-0\\apache2\\htdocs"
+		},
+		{
+			"name": "PHPSelfStudy",
+			"path": "..\\..\\..\\..\\git\\PHPSelfStudy"
+		},
+		{
+			"name": "post-app",
+			"path": "..\\..\\.."
+		},
+		{
+			"path": "..\\..\\..\\..\\Desktop\\VUE projects"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "VUE projects"
+	}
+}
