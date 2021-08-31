@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Feeling;
 use App\Models\Mycheck;
 use App\Models\Post;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -354,7 +355,8 @@ class PostsController extends Controller
         $feeling = new Feeling();
         $feelings = $feeling::all();
 
-
+        $reply = new Reply();
+        $replies = $reply::all();
 
 
         /*
@@ -375,7 +377,8 @@ class PostsController extends Controller
         $getget = json_decode($get, true);
 
 
-        return view('posts.show', compact('post', 'page', 'comments', 'getget', 'feelings', 'feeling'));
+
+        return view('posts.show', compact('post', 'page', 'comments', 'getget', 'feelings', 'feeling', 'replies'));
     }
 
 
