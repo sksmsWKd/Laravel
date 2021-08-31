@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -75,6 +76,21 @@ class CommentController extends Controller
 
 
         Alert::success('Jobs done', 'your comment has been updated');
+        return redirect()->back();
+    }
+
+    public function createReply(Request $request, $rid)
+    {
+        $reply = new Reply();
+
+        $reply->replyContent = $request->replyContent;
+        $reply->user_name = Auth::user()->name;
+        $reply->comment_id = $rid;
+
+        dd($reply);
+
+        $reply->save();
+
         return redirect()->back();
     }
 }
