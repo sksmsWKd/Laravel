@@ -226,8 +226,7 @@
             </div>
             <div class="form-group text-gray-300">
                 <label for="content">Content</label>
-                <div
-                    class="container border-opacity-50 border-gray-400 border-t border-r border-b border-l bg-gray-400">
+                <div class="container border-opacity-50 border-gray-400 border-t border-r border-b border-l bg-gray-400">
                     {!! $post->content !!}
                 </div>
                 {{-- <textarea readonly name="content" class="form-control" id="content"> {!! $post->content !!}</textarea> --}}
@@ -312,6 +311,8 @@
                 @endauth
 
 
+
+
             </div>
             <br>
             <br>
@@ -383,9 +384,17 @@
                                             </div>
 
                                             @if (Auth::user()->id != $comment->user_id)
-                                                <form action="">
+                                                <form action="{{ route('createreply', ['rid' => $comment->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+
+                                                    <input type="text" class="form-control" name="replyContent"
+                                                        id="replyContent" style="color:white" />
+
                                                     <button type=" submit" style=" color :lavender "
                                                         class="btn btn-secondary">답글</button>
+
+
 
                                                 </form>
                                             @endif
