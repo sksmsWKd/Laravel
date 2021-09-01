@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('hihi2', [PostsController::class, 'hihi2']);
+
+Route::post('/replycreate', [CommentController::class, 'createReply'])->name('createreply');
+
 Route::put('/posts/{id}/comments/store', [CommentController::class, 'commentSave'])->name('comment.store');
 
 Route::put('/commentsupdate/{cid}', [CommentController::class, 'commentUpdate'])->name('comment.update');
@@ -99,4 +102,6 @@ Route::get('/chart/index', [ChartController::class, 'index']);
 
 Route::post('/addlike/{id}', [FeelingController::class, 'addLike'])->name('addlike');
 Route::post('/adddisilke/{id}', [FeelingController::class, 'addDislike'])->name('adddislike');
+
+
 //comment 체크
