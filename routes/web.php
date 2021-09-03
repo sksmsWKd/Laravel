@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('hihi2', [PostsController::class, 'hihi2']);
-
-Route::post('/replycreate', [CommentController::class, 'createReply'])->name('createreply');
+Route::delete('/replydelete/{rid}', [CommentController::class, 'destory'])->name('reply.delete');
+Route::post('/replycreate/{rid}', [CommentController::class, 'createReply'])->name('createreply');
 
 Route::put('/posts/{id}/comments/store', [CommentController::class, 'commentSave'])->name('comment.store');
 
