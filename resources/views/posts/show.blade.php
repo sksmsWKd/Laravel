@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -22,6 +24,28 @@
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <script>
+        window.onload = function() {
+            visibleTable.hidden = true;
+            visibleTable2.hidden = true;
+        }
+
+        function showing() {
+            document.getElementById("visibleTable").hidden = false;
+        }
+
+        function showing2() {
+            document.getElementById("visibleTable2").hidden = false;
+        }
+
+        function hiding() {
+            document.getElementById("visibleTable").hidden = true;
+        }
+
+        function hiding2() {
+            document.getElementById("visibleTable2").hidden = true;
+        }
+    </script>
 
     <style>
         .max-w-7xl.mx-auto.py-6.px-4.sm:px-6.lg:px-8 {
@@ -256,7 +280,7 @@
                 <label>작성자</label>
                 <input type="text" readonly class="form-control" value="{{ $post->user->name }}"
                     style="color: aliceblue">
-            </div>
+            </div>ss
             <div class="from-group text-gray-300">
                 <label for="imageFile">이미지</label>
                 <div class="from-group text-gray-300">
@@ -300,6 +324,7 @@
 
                 @auth
                     <form action="{{ route('comment.store', ['id' => $post->id]) }}" method="post">
+
                         @csrf
                         @method("put")
 
@@ -309,19 +334,12 @@
                         <x-button type="submit" style=" color :lavender" class="btn btn-dark">작성</x-button>
                     </form>
                 @endauth
-
-
-
-
             </div>
             <br>
             <br>
-
-
-
             <table class="table table-striped  table-hover table-dark task-table text-gray-300 ">
 
-                <thead class=" table-hover table-secondary table-gray-800 text-black">
+                <thead class="  table-secondary table-gray-800 text-black">
 
                     <th> 댓글 개수 &nbsp;
                         @if ($getget != null) {{ $getget[0]['id'] }}
@@ -340,8 +358,10 @@
                     @foreach ($comments as $comment)
                         @if ($comment->post_id == $post->id)
                             <tr>
-                                <td class="table-dark">
+                                <td class="table-dark table-hover">
                                     <div>
+
+
                                         <div>
                                             작성자 : &nbsp;&nbsp;&nbsp;{{ $comment->user_name }}
                                             <br>
@@ -351,7 +371,18 @@
                                             작성일 &nbsp;: &nbsp;&nbsp; {{ $comment->created_at }}
                                             <br>
 
-                                            <div class="btnbox">
+
+                                            @if (Auth::user()->id == $comment->user_id)
+                                                <button class="btn btn-secondary " onclick="showing()">댓글수정할래요!</button>
+                                            @elseif (Auth::user()->id != $comment->user_id)
+                                                <button class="btn btn-secondary " onclick="showing2()">의견
+                                                    작성할래요!</button>
+                                            @endif
+                                            <div>
+
+                                            </div>
+
+                                            <div class="btnbox" name="re-comment-box" id="visibleTable">
                                                 @if (Auth::user()->id == $comment->user_id)
                                                     {{-- @if (Auth::user()->id == $comment->user_id) --}}
                                                     <form
@@ -368,47 +399,112 @@
                                                             class="btn btn-secondary pull-left ">수정</button>
 
                                                     </form>
+                                                    <form
+                                                        action=" {{ route('commentdelete', ['cid' => $comment->id]) }}">
+                                                        <button type="submit" style=" color :red "
+                                                            class="btn btn-secondary pull-left float-left">삭제</button>
+                                                    </form>
+                                                    @if (Auth::user()->id == $comment->user_id)
+                                                        <button class="btn btn-secondary " onclick="hiding()">
+                                                            댓글 수정 닫기
+                                                        </button>
+                                                    @endif
+
 
                                                     {{-- @endif --}}
 
                                                     {{-- @if (Auth::user()->id == $comment->user_id) --}}
 
 
-                                                    <form
-                                                        action=" {{ route('commentdelete', ['cid' => $comment->id]) }}">
-                                                        <button type="submit" style=" color :red "
-                                                            class="btn btn-secondary pull-left">삭제</button>
-                                                    </form>
+
+
+
+
                                                     {{-- @endif --}}
                                                 @endif
                                             </div>
 
                                             @if (Auth::user()->id != $comment->user_id)
-                                                <form action="{{ route('createreply', ['rid' => $comment->id]) }}"
-                                                    method="POST">
-                                                    @csrf
+                                                <div id="visibleTable2">
+                                                    <form
+                                                        action="{{ route('createreply', ['rid' => $comment->id]) }}"
+                                                        method="POST">
+                                                        @csrf
 
-                                                    <input type="text" class="form-control" name="replyContent"
-                                                        id="replyContent" style="color:white" />
+                                                        <input type="text" class="form-control" name="replyContent"
+                                                            id="replyContent" style="color:white" />
 
-                                                    <button type=" submit" style=" color :lavender "
-                                                        class="btn btn-secondary">답글</button>
-
-
-
-                                                </form>
+                                                        <button type=" submit" style=" color :lavender "
+                                                            class="btn btn-secondary float-left">의견 작성</button>
+                                                    </form>
+                                                    @if (Auth::user()->id != $comment->user_id)
+                                                        <button class="btn btn-secondary" onclick="hiding2()">
+                                                            의견 작성 닫기
+                                                        </button>
+                                                    @endif
+                                                </div>
                                             @endif
-                                        </div>
 
-                                    </div>
 
-                                </td>
-                            </tr>
+
+                                            <table
+                                                class="table table-striped  table-dark task-table text-gray-100 mt-10 table-border">
+                                                <thead
+                                                    class="table-hover table-secondary table-gray-800 text-black table-border">
+                                                    <th>
+                                                        의견
+                                                    </th>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($replies as $reply)
+                                                        @if ($comment->id == $reply->comment_id)
+                                                            <tr>
+                                                                <td class="table-hover">
+                                                                    <p> ㄴ&nbsp;&nbsp;작성자 &nbsp; : &nbsp;
+                                                                        &nbsp;{{ $reply->user_name }} </p>
+                                                                    <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;내용
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :
+                                                                        &nbsp;
+                                                                        &nbsp;{{ $reply->replyContent }}</p>
+                                                                    <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성일
+                                                                        &nbsp; :
+                                                                        &nbsp;
+                                                                        &nbsp;{{ $reply->created_at }}</p>
+
+                                                                    @if (Auth::user()->name == $reply->user_name)
+                                                                        <form
+                                                                            action=" {{ route('reply.delete', ['rid' => $reply->id]) }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            @method('DELETE')
+
+                                                                            <button type="submit" style=" color :red "
+                                                                                class="btn btn-secondary pull-left">삭제</button>
+                                                                        </form>
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+
+
+
+                                                </tbody>
+                                            </table>
+
+
                         @endif
-                    @endforeach
-                </tbody>
+        </div>
 
-            </table>
+        </div>
+
+        </td>
+        </tr>
+
+        @endforeach
+        </tbody>
+
+        </table>
 
         </div>
 
