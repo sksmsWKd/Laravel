@@ -87,9 +87,19 @@ class CommentController extends Controller
         $reply->user_name = Auth::user()->name;
         $reply->comment_id = $rid;
 
-        dd($reply);
+
 
         $reply->save();
+
+        return redirect()->back();
+    }
+
+    public function destory($rid)
+    {
+        $replies = Reply::findOrFail($rid);
+        $replies->delete();
+        Alert::success('Jobs done', 'Your reply has been deleted');
+
 
         return redirect()->back();
     }
